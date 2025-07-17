@@ -15,7 +15,9 @@ const App = () => {
 
     setData(stories);
     console.log("Data fetched");
-  }, dbData);
+  }, []);
+
+  const finalData = data.map((e) => e);
 
   return (
     <>
@@ -23,9 +25,9 @@ const App = () => {
         <Header />
         <div className="w-full h-[100vh] p-6  gap-x-4 flex justify-center">
           <LSideBar />
-          {data.map((e) => (
-            <Board dataSet={e} />
-          ))}
+
+          <Board dataSet={finalData} />
+
           <RSideBar />
         </div>
       </div>

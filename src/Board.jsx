@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import Keys from "./Components/Keys";
 
-const Board = ({ dataSet, ...props }) => {
-  debugger;
-  const title = dataSet?.[`title`];
-  const author = dataSet?.[`author`];
+const Board = ({ dataSet }) => {
+  // debugger;
+  console.log(dataSet[0]);
+  const title = dataSet?.[0]?.[`title`];
+  const author = dataSet?.[0]?.[`author`];
   console.log(title);
   console.log(author);
 

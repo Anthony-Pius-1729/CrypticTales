@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 
 const Keys = ({ dataSet }) => {
+  ///STATES
+  const [written, setWritten] = useState("");
+  const [correct, setCorrect] = useState(false);
+
   ///DEFINE PRORITY CONSTANTS
-  debugger;
-  const base = dataSet?.[`story_text`]?.replaceAll(" ", "");
+  // debugger;
+  const base = dataSet?.[0]?.[`story_text`]?.replaceAll(" ", "");
   const textArray = base?.split("");
   const len = textArray?.length;
   const special_chars = `/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/`;
@@ -69,22 +73,56 @@ const Keys = ({ dataSet }) => {
     Maps[alphabet[i]] = lucasArray[i];
   }
 
-  // console.log("Maps created: ", Maps);
-  {
-    /* 
-      TRASH
-    [  --> Create a random array of substrings of the string from A-to-Z( such that no letter repeats in any given array ???????? )
-      --> Given the current letter check if its in a randomly selected substring array :
-        ---> if it is: display the character
-        ---> if it is not: display the numerical encode
-      --> there should be at least 5 displayed letters for each run: a "run" is a [game state]]
-
-    Create a new array
-    Use TextArray randomly replace 20-25 positions with the encoded value
-    
-
-      */
+  ///Random Indices
+  let randomIndex = [];
+  for (let i = 0; i < 26; i++) {
+    randomIndex[i] = Math.floor(Math.random() * 26);
   }
+  let even = Math.random() < 0.99;
+
+  const handleChange = (e) => {
+    setWritten(e.currentTarget.value);
+  };
+  console.log(
+    "Written and its length:",
+    written,
+    written.replaceAll(" ", "").length
+  );
+  let wordVerif = written.replaceAll(" ", "").toLocaleUpperCase();
+  let wordVerifLen = wordVerif.length;
+  if (wordVerifLen > 0) {
+    console.log(
+      "LOG:",
+      textArray?.slice(0, 36)[wordVerifLen - 1],
+      wordVerif[wordVerifLen - 1]
+    );
+  }
+
+  if (
+    wordVerifLen > 0 &&
+    textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
+      wordVerif[wordVerifLen - 1]
+  ) {
+    alert("correct letter");
+    // setCorrect(!correct)
+  }
+
+  ///SOMETHING SMARTER: AS YOU TAKE IN INPUT, FIND THE LENGTH AND USE THAT TO SLICE THE TEXTARRAY AND THEN ALWAYS CHECK THE LAST INDEX TO SEE IF IT MATCHES THE
+  const handleClick = () => {
+    // console.log("Handle Click", written);
+    // console.log(
+    //   "Handle Click",
+    //   written.toLocaleUpperCase().replaceAll(" ", "")
+    // );
+    // console.log("Handle Click", base.slice(0, 36).toLocaleUpperCase());
+    if (
+      written.toLocaleUpperCase().replaceAll(" ", "") ==
+      base.slice(0, 36).toLocaleUpperCase()
+    ) {
+      alert("Correct");
+    }
+  };
+
   return (
     <>
       <div>
@@ -94,15 +132,18 @@ const Keys = ({ dataSet }) => {
               if (idx < len - 488) {
                 const newChar = letter.toUpperCase();
                 let checker = special_chars.includes(letter);
+                let valid = written == letter;
+
+                let textDisplayed = even ? Maps[newChar] : newChar;
                 if (checker) specialInStory.push(idx);
                 return (
                   <button
                     className={`p-2 w-[4rem]
                bg-${checker ? "[rgba(245,158,11,0.1)]" : "[#FFC61]"}
-                text-${checker ? `gray-50` : `[#4fd1c7]`}
+                text-${valid ? `gray-50` : `[#4fd1c7]`}
                  border-[1px] border-[#39978f] rounded-xl m-2`}
                   >
-                    {checker ? newChar : Maps[newChar]}
+                    {checker ? newChar : textDisplayed}
                   </button>
                 );
               } else return <></>;
@@ -111,11 +152,15 @@ const Keys = ({ dataSet }) => {
         </div>
         <div className="flex justify-between mx-6 gap-x-4">
           <input
+            onChange={handleChange}
             type="text"
             placeholder="Enter decoded text..."
             className="p-6 drop-shadow-md drop-shadow-[#4fd1c7]  border-2 border-[#4fd1c7] outline-none w-full h-[2rem] rounded-md text-gray-400 bg-[rgba(19,35,63,0.9)]"
           />
-          <button className="p-2 outline-none rounded-lg text-gray-50 border-[rgba(79,209,199,0.3)] font-semibold border-none w-[30%] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]">
+          <button
+            onClick={handleClick}
+            className="p-2 outline-none rounded-lg text-gray-50 border-[rgba(79,209,199,0.3)] font-semibold border-none w-[30%] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]"
+          >
             Decode
           </button>
         </div>
