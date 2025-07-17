@@ -3,7 +3,6 @@ import React, { useState } from "react";
 const Keys = ({ dataSet }) => {
   ///STATES
   const [written, setWritten] = useState("");
-  const [correct, setCorrect] = useState(false);
 
   ///DEFINE PRORITY CONSTANTS
   // debugger;
@@ -87,8 +86,10 @@ const Keys = ({ dataSet }) => {
       textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
         wordVerif[wordVerifLen - 1]
     ) {
+      setCorrect(true);
       alert("correct letter");
-      setCorrect(!correct);
+    } else {
+      setCorrect(false);
     }
   };
   console.log(
@@ -119,7 +120,7 @@ const Keys = ({ dataSet }) => {
       written.toLocaleUpperCase().replaceAll(" ", "") ==
       base.slice(0, 36).toLocaleUpperCase()
     ) {
-      alert("Correct");
+      // alert("Correct");
       return;
     }
   };
@@ -131,19 +132,30 @@ const Keys = ({ dataSet }) => {
           <div className="grid grid-cols-7 grid-rows-9 gap-x-0.5 p-8 ">
             {textArray?.map((letter, idx) => {
               if (idx < len - 488) {
+                ///[rgba(245,158,11,0.1)]
                 const newChar = letter.toUpperCase();
                 let checker = special_chars.includes(letter);
                 let valid = written == letter;
 
-                let textDisplayed = even ? Maps[newChar] : newChar;
+                const isCorrectChar =
+                  written.length > idx &&
+                  written.toLocaleUpperCase()[idx] ===
+                    letter.toLocaleUpperCase();
+
+                let textDisplayed = even
+                  ? isCorrectChar
+                    ? newChar
+                    : Maps[newChar]
+                  : newChar;
+
                 if (checker) specialInStory.push(idx);
                 return (
                   <button
                     id={idx}
-                    className={`p-2 w-[4rem]
-               bg-${correct ? "[rgba(245,158,11,0.1)]" : "[#FFC61]"}
-                text-${valid ? `gray-50` : `[#4fd1c7]`}
-                 border-[1px] border-[#39978f] rounded-xl m-2`}
+                    className={`p-2 w-[4rem] 
+               bg-${isCorrectChar ? "[#FFD586]" : "[#FFC61]"}
+                text-${isCorrectChar ? `gray-950` : `[#4fd1c7]`}
+                 border-[1px] font-semibold border-[#39978f] rounded-xl m-2`}
                   >
                     {checker ? newChar : textDisplayed}
                   </button>
