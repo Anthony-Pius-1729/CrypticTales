@@ -82,6 +82,14 @@ const Keys = ({ dataSet }) => {
 
   const handleChange = (e) => {
     setWritten(e.currentTarget.value);
+    if (
+      wordVerifLen > 0 &&
+      textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
+        wordVerif[wordVerifLen - 1]
+    ) {
+      alert("correct letter");
+      setCorrect(!correct);
+    }
   };
   console.log(
     "Written and its length:",
@@ -98,15 +106,7 @@ const Keys = ({ dataSet }) => {
     );
   }
 
-  if (
-    wordVerifLen > 0 &&
-    textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
-      wordVerif[wordVerifLen - 1]
-  ) {
-    alert("correct letter");
-    // setCorrect(!correct)
-  }
-
+  debugger;
   ///SOMETHING SMARTER: AS YOU TAKE IN INPUT, FIND THE LENGTH AND USE THAT TO SLICE THE TEXTARRAY AND THEN ALWAYS CHECK THE LAST INDEX TO SEE IF IT MATCHES THE
   const handleClick = () => {
     // console.log("Handle Click", written);
@@ -120,6 +120,7 @@ const Keys = ({ dataSet }) => {
       base.slice(0, 36).toLocaleUpperCase()
     ) {
       alert("Correct");
+      return;
     }
   };
 
@@ -138,8 +139,9 @@ const Keys = ({ dataSet }) => {
                 if (checker) specialInStory.push(idx);
                 return (
                   <button
+                    id={idx}
                     className={`p-2 w-[4rem]
-               bg-${checker ? "[rgba(245,158,11,0.1)]" : "[#FFC61]"}
+               bg-${correct ? "[rgba(245,158,11,0.1)]" : "[#FFC61]"}
                 text-${valid ? `gray-50` : `[#4fd1c7]`}
                  border-[1px] border-[#39978f] rounded-xl m-2`}
                   >
