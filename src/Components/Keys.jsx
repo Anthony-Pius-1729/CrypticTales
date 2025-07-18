@@ -77,26 +77,8 @@ const Keys = ({ dataSet }) => {
   for (let i = 0; i < 26; i++) {
     randomIndex[i] = Math.floor(Math.random() * 26);
   }
-  let even = Math.random() < 0.99;
+  let even = Math.random() < 0.7;
 
-  const handleChange = (e) => {
-    setWritten(e.currentTarget.value);
-    if (
-      wordVerifLen > 0 &&
-      textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
-        wordVerif[wordVerifLen - 1]
-    ) {
-      setCorrect(true);
-      alert("correct letter");
-    } else {
-      setCorrect(false);
-    }
-  };
-  console.log(
-    "Written and its length:",
-    written,
-    written.replaceAll(" ", "").length
-  );
   let wordVerif = written.replaceAll(" ", "").toLocaleUpperCase();
   let wordVerifLen = wordVerif.length;
   if (wordVerifLen > 0) {
@@ -107,6 +89,24 @@ const Keys = ({ dataSet }) => {
     );
   }
 
+  const handleChange = (e) => {
+    setWritten(e.currentTarget.value);
+    // if (
+    //   wordVerifLen > 0 &&
+    //   textArray?.slice(0, 36)[wordVerifLen - 1].toLocaleUpperCase() ==
+    //     wordVerif[wordVerifLen - 1]
+    // ) {
+    //   setCorrect(true);
+    //   alert("correct letter");
+    // } else {
+    //   setCorrect(false);
+    // }
+  };
+  console.log(
+    "Written and its length:",
+    written,
+    written.replaceAll(" ", "").length
+  );
   debugger;
   ///SOMETHING SMARTER: AS YOU TAKE IN INPUT, FIND THE LENGTH AND USE THAT TO SLICE THE TEXTARRAY AND THEN ALWAYS CHECK THE LAST INDEX TO SEE IF IT MATCHES THE
   const handleClick = () => {
@@ -128,31 +128,31 @@ const Keys = ({ dataSet }) => {
   return (
     <>
       <div>
-        <div className="m-6 border-2 rounded-3xl border-[rgba(79,209,199,0.3)] bg-[rgba(10,18,33,0.9)] h-[60%]">
+        <div className="m-6 border-2 rounded-3xl border-[rgba(79,209,199,0.3)] bg-[rgba(10,18,33,0.9)] h-[25rem]">
           <div className="grid grid-cols-7 grid-rows-9 gap-x-0.5 p-8 ">
             {textArray?.map((letter, idx) => {
               if (idx < len - 488) {
                 ///[rgba(245,158,11,0.1)]
                 const newChar = letter.toUpperCase();
                 let checker = special_chars.includes(letter);
-                let valid = written == letter;
+                // let valid = written == letter;
 
+                const writtenNoSpaces = written
+                  .replaceAll(" ", "")
+                  .toLocaleUpperCase();
                 const isCorrectChar =
-                  written.length > idx &&
-                  written.toLocaleUpperCase()[idx] ===
-                    letter.toLocaleUpperCase();
+                  writtenNoSpaces.length > idx &&
+                  writtenNoSpaces[idx] === letter.toLocaleUpperCase();
 
-                let textDisplayed = even
-                  ? isCorrectChar
-                    ? newChar
-                    : Maps[newChar]
-                  : newChar;
+                let textDisplayed = isCorrectChar ? newChar : Maps[newChar];
+
+                console.log("TEXTDISPLAY: ", textDisplayed);
 
                 if (checker) specialInStory.push(idx);
                 return (
                   <button
                     id={idx}
-                    className={`p-2 w-[4rem] 
+                    className={`p-2 w-[4rem] text-sm 
                bg-${isCorrectChar ? "[#FFD586]" : "[#FFC61]"}
                 text-${isCorrectChar ? `gray-950` : `[#4fd1c7]`}
                  border-[1px] font-semibold border-[#39978f] rounded-xl m-2`}
@@ -178,6 +178,24 @@ const Keys = ({ dataSet }) => {
             Decode
           </button>
         </div>
+
+        {/* <div className="flex justify-between items-center mt-12 mx-0 p-4 border-[0.2px] rounded-3xl border-[rgba(79,209,199,0.3)] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)] w-full">
+          <div className="flex items-center gap-2">
+            <span className="text-white font-semibold">Score: 2,330</span>
+            <span>❤️❤️❤️❤️❤️</span>
+          </div>
+          <div className="flex gap-2">
+            <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              Hint
+            </button>
+            <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              Reset
+            </button>
+            <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              Skip
+            </button>
+          </div>
+        </div> */}
       </div>
     </>
   );
