@@ -7,7 +7,15 @@ import Header from "./Components/Header";
 import dbData from "./data.json";
 const App = () => {
   const [data, setData] = useState([]);
-  const [displayR, setDisplayR] = useState(true);
+  const [displayR, setDisplayR] = useState(false);
+
+  const handleShow = () => {
+    setDisplayR(false);
+  };
+
+  const handleClick = () => {
+    setDisplayR(!displayR);
+  };
 
   useEffect(() => {
     const result = dbData;
@@ -29,7 +37,7 @@ const App = () => {
 
           <Board dataSet={finalData} />
 
-          {displayR && <RSideBar />}
+          {displayR && <RSideBar ondisp={handleShow} />}
         </div>
         <div className="absolute bottom-[-3.5rem] flex flex-col justify-center items-center ">
           <div className="flex justify-between items-center mb-6 p-12 border-[0.2px] rounded-3xl border-[rgba(79,209,199,0.3)] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)] w-[87rem]">
@@ -40,7 +48,10 @@ const App = () => {
             </div>
 
             <div className="flex gap-2">
-              <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              <button
+                onClick={handleClick}
+                className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
+              >
                 Hint
               </button>
               <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
