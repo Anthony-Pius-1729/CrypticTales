@@ -65,36 +65,34 @@ const ChatComponent = ({ text }) => {
   debugger;
   return (
     <div className="text-white">
-      <Markdown> {aiResponse}</Markdown>
-      <Text />
+      {/* <Markdown> {aiResponse}</Markdown> */}
+      {text && <Text />}
 
-      <div className="space-x-4 mt-4">
-        {speechStatus !== "started" ? (
-          <button onClick={start}>Start</button>
-        ) : (
-          <button onClick={pause}>Pause</button>
-        )}
-        <button onClick={stop}>Stop</button>
-      </div>
-
-      {/* <button
-        onClick={handleAI}
-        className="px-4 py-2 bg-blue-300 border-none rounded-lg text-black my-1.5"
-      >
-        AI speak
-      </button> */}
-      {/* {text && (
-        <Speech
-          text={aiResponse}
-          onError={(error) => alert(error.message)}
-          onStart={(event) => console.log("Speech Started:", event)}
-          onResume={(event) => console.log("Speech Resumed:", event)}
-          onPause={(event) => console.log("Speech Paused:", event)}
-          onStop={(event) => console.log("Speech Stopped:", event)}
-          onBoundary={(event) => console.log("Boundary:", event)}
-          onQueueChange={(queue) => console.log("Queue updated:", queue)}
-        />
-      )} */}
+      {text && (
+        <div className="space-x-4 mt-4">
+          {speechStatus !== "started" ? (
+            <button
+              className="px-4 py-2 rounded-lg text-black bg-blue-200 hover:bg-blue-200/70"
+              onClick={start}
+            >
+              Start
+            </button>
+          ) : (
+            <button
+              className="px-4 py-2 rounded-lg text-black bg-blue-200 hover:bg-blue-200/70"
+              onClick={pause}
+            >
+              Pause
+            </button>
+          )}
+          <button
+            className="px-4 py-2 rounded-lg text-black bg-red-300 hover:bg-red-300/70"
+            onClick={stop}
+          >
+            Stop
+          </button>
+        </div>
+      )}
     </div>
   );
 };
