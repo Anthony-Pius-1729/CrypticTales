@@ -141,7 +141,7 @@ const Keys = ({ dataSet }) => {
                         : "rgba(10,18,33,0.9)",
                       color: isCorrectChar ? "#1e293b" : "#4fd1c7",
                     }}
-                    className="p-2 w-16 text-sm border bg-[gba(10,18,33,0.9)] border-[#39978f] font-semibold rounded-xl m-2"
+                    className="p-2 w-16 text-sm border  border-[#39978f] font-semibold rounded-xl m-2"
                   >
                     {checker ? newChar : textDisplayed}
                   </button>
