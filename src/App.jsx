@@ -50,14 +50,14 @@ const App = () => {
             <div className="flex gap-2">
               <button
                 onClick={handleClick}
-                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
+                className="px-4 py-2  hover:border-1  backdrop-blur-sm bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
               >
                 Hint
               </button>
-              <button className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              <button className="px-4 py-2 hover:border-1 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
                 Reset
               </button>
-              <button className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              <button className="px-4 py-2 hover:border-1 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
                 Skip
               </button>
             </div>

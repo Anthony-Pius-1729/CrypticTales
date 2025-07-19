@@ -135,11 +135,13 @@ const Keys = ({ dataSet }) => {
                 return (
                   <button
                     id={idx}
-                    // style={{backgroundColor: }}
-                    className={`p-2 w-[4rem] text-sm 
-               bg-${isCorrectChar ? "[#FFD586]" : "[#FFC61]"}
-                text-${isCorrectChar ? `gray-950` : `[#4fd1c7]`}
-                 border-[1px] font-semibold border-[#39978f] rounded-xl m-2`}
+                    style={{
+                      backgroundColor: isCorrectChar ? "#FFD586" : "#FFC61",
+                      color: isCorrectChar
+                        ? "#1e293b" /* gray-950 approx */
+                        : "#4fd1c7",
+                    }}
+                    className="p-2 w-16 text-sm border border-[#39978f] font-semibold rounded-xl m-2"
                   >
                     {checker ? newChar : textDisplayed}
                   </button>

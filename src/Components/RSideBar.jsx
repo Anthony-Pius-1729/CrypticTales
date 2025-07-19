@@ -145,7 +145,7 @@ const RSideBar = ({ ondisp }) => {
             {!chat && (
               <div className="overflow-y-scroll no-scrollbar">
                 <div className="mt-2 ">
-                  {hints.map((item) => {
+                  {hints.map((item, idx) => {
                     return (
                       <div
                         key={item.id}
@@ -159,7 +159,7 @@ const RSideBar = ({ ondisp }) => {
                             </h1>
                           </div>
                           <div className="bg-[rgba(245,158,11,0.1)] px-4 py-2 rounded-lg text-[#d18708] text-sm border-1 border-[#a36906]">
-                            <p>Free</p>
+                            {idx % 2 == 0 ? <p>Free</p> : <p>-50 pts</p>}
                           </div>
                         </div>
                         <p className="block">{item.explanation}</p>
