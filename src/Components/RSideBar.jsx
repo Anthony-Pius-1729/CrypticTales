@@ -6,6 +6,7 @@ import ChatComponent from "./ChatComponent";
 const RSideBar = ({ ondisp }) => {
   const TIME_CONST = 1.67;
   /// 1.67
+  const [text, setText] = useState("");
   const [time, setTime] = useState(2000);
   const [updateWidth, setUpdateWidth] = useState(100);
   const [disp, setDisp] = useState(true);
@@ -75,6 +76,7 @@ const RSideBar = ({ ondisp }) => {
   const handleChat = () => {
     setChat(!chat);
   };
+  // console.log("TEXT IN RSIDE BAR", text);
   return (
     <>
       {disp && (
@@ -137,8 +139,8 @@ const RSideBar = ({ ondisp }) => {
               </div>
             </div>
 
-            {chat && <PatternBuilder />}
-            <ChatComponent />
+            {chat && <PatternBuilder onTextChange={setText} />}
+            <ChatComponent text={text} />
             {!chat && (
               <div className="overflow-y-scroll no-scrollbar">
                 <div className="mt-2 ">
