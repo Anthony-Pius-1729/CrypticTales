@@ -1,11 +1,28 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import Markdown from "react-markdown";
+import Speech from "react-text-to-speech";
+import { useSpeech } from "react-text-to-speech";
 import { GoogleGenAI } from "@google/genai";
 
-const ChatComponent = () => {
+const ChatComponent = ({ text }) => {
+  const [aiResponse, setAiResponse] = useState("");
+  const [speak, setSpeek] = useState(false);
+  debugger;
+  const {
+    Text, // Component that returns the modified text property
+    speechStatus, // String that stores current speech status
+    isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
+    start, // Function to start the speech or put it in queue
+    pause, // Function to pause the speech
+    stop, // Function to stop the speech or remove it from queue
+  } = useSpeech({ text: aiResponse });
+  debugger;
+  const handleAI = () => {
+    setSpeek(true);
+  };
+  // console.log("TEXT IN CHATCOOMP", text);
   useEffect(() => {
     const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
-
-    console.log("GEMINI_API_KEY (from import.meta.env):", GEMINI_API_KEY);
 
     if (!GEMINI_API_KEY) {
       console.error("Gemini API key is not set in environment variables.");
@@ -18,11 +35,18 @@ const ChatComponent = () => {
     const ai = new GoogleGenAI({ apiKey: GEMINI_API_KEY });
 
     async function generateContent() {
+      if (!text) return;
+      console.log("GEMINI API STARTED");
       try {
         const response = await ai.models.generateContent({
           model: "gemini-2.5-flash",
-          contents: "Explain how AI works in a few words",
+          contents:
+            text +
+            ". Mark down your response and Limit explanatory and other  responses to 40 words ",
         });
+
+        setAiResponse(response.text);
+        console.log("GEMINI API FINISHED");
 
         console.log("Gemini API Response:", response.text);
       } catch (error) {
@@ -36,10 +60,42 @@ const ChatComponent = () => {
     }
 
     generateContent();
-  }, []);
-
+  }, [text]);
+  //
+  debugger;
   return (
-    <div className="text-white">ChatComponent - Checking Gemini API...</div>
+    <div className="text-white">
+      <Markdown> {aiResponse}</Markdown>
+      <Text />
+
+      <div className="space-x-4 mt-4">
+        {speechStatus !== "started" ? (
+          <button onClick={start}>Start</button>
+        ) : (
+          <button onClick={pause}>Pause</button>
+        )}
+        <button onClick={stop}>Stop</button>
+      </div>
+
+      {/* <button
+        onClick={handleAI}
+        className="px-4 py-2 bg-blue-300 border-none rounded-lg text-black my-1.5"
+      >
+        AI speak
+      </button> */}
+      {/* {text && (
+        <Speech
+          text={aiResponse}
+          onError={(error) => alert(error.message)}
+          onStart={(event) => console.log("Speech Started:", event)}
+          onResume={(event) => console.log("Speech Resumed:", event)}
+          onPause={(event) => console.log("Speech Paused:", event)}
+          onStop={(event) => console.log("Speech Stopped:", event)}
+          onBoundary={(event) => console.log("Boundary:", event)}
+          onQueueChange={(queue) => console.log("Queue updated:", queue)}
+        />
+      )} */}
+    </div>
   );
 };
 
