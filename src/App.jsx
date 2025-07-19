@@ -5,6 +5,7 @@ import RSideBar from "./Components/RSideBar";
 import LSideBar from "./Components/LSideBar";
 import Header from "./Components/Header";
 import dbData from "./data.json";
+import ChatComponent from "./Components/ChatComponent";
 const App = () => {
   const [data, setData] = useState([]);
   const [displayR, setDisplayR] = useState(false);

@@ -23,7 +23,7 @@ const Keys = ({ dataSet }) => {
     )
   );
 
-  console.log("Special in Story: ", specialInStory);
+  // console.log("Special in Story: ", specialInStory);
 
   const alphabet = [
     "A",
@@ -81,13 +81,6 @@ const Keys = ({ dataSet }) => {
 
   let wordVerif = written.replaceAll(" ", "").toLocaleUpperCase();
   let wordVerifLen = wordVerif.length;
-  if (wordVerifLen > 0) {
-    console.log(
-      "LOG:",
-      textArray?.slice(0, 36)[wordVerifLen - 1],
-      wordVerif[wordVerifLen - 1]
-    );
-  }
 
   const handleChange = (e) => {
     setWritten(e.currentTarget.value);
@@ -102,20 +95,10 @@ const Keys = ({ dataSet }) => {
     //   setCorrect(false);
     // }
   };
-  console.log(
-    "Written and its length:",
-    written,
-    written.replaceAll(" ", "").length
-  );
+
   debugger;
   ///SOMETHING SMARTER: AS YOU TAKE IN INPUT, FIND THE LENGTH AND USE THAT TO SLICE THE TEXTARRAY AND THEN ALWAYS CHECK THE LAST INDEX TO SEE IF IT MATCHES THE
   const handleClick = () => {
-    // console.log("Handle Click", written);
-    // console.log(
-    //   "Handle Click",
-    //   written.toLocaleUpperCase().replaceAll(" ", "")
-    // );
-    // console.log("Handle Click", base.slice(0, 36).toLocaleUpperCase());
     if (
       written.toLocaleUpperCase().replaceAll(" ", "") ==
       base.slice(0, 36).toLocaleUpperCase()
@@ -146,12 +129,13 @@ const Keys = ({ dataSet }) => {
 
                 let textDisplayed = isCorrectChar ? newChar : Maps[newChar];
 
-                console.log("TEXTDISPLAY: ", textDisplayed);
+                // console.log("TEXTDISPLAY: ", textDisplayed);
 
                 if (checker) specialInStory.push(idx);
                 return (
                   <button
                     id={idx}
+                    // style={{backgroundColor: }}
                     className={`p-2 w-[4rem] text-sm 
                bg-${isCorrectChar ? "[#FFD586]" : "[#FFC61]"}
                 text-${isCorrectChar ? `gray-950` : `[#4fd1c7]`}
