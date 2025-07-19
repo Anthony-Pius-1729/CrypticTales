@@ -4,24 +4,31 @@ import PatternBuilder from "./PatternBuilder";
 import ChatComponent from "./ChatComponent";
 
 const RSideBar = ({ ondisp }) => {
-  const TIME_CONST = 1.67;
+  const INITIAL_TIME = 60;
   const [text, setText] = useState("");
-  const [time, setTime] = useState(2000);
-  const [updateWidth, setUpdateWidth] = useState(100);
-
+  const [time, setTime] = useState(INITIAL_TIME);
   const [disp, setDisp] = useState(true);
   const [chat, setChat] = useState(false);
+
+  const progressPercentage = (time / INITIAL_TIME) * 100;
 
   useEffect(() => {
     if (time <= 0) {
       setDisp(false);
-      setUpdateWidth(0);
       return;
     }
+
     const intervalId = setInterval(() => {
-      setTime((prevTime) => prevTime - 1);
-      setUpdateWidth((width) => width - TIME_CONST);
+      setTime((prevTime) => {
+        const newTime = prevTime - 1;
+        if (newTime <= 0) {
+          setDisp(false);
+          return 0;
+        }
+        return newTime;
+      });
     }, 1000);
+
     return () => clearInterval(intervalId);
   }, [time]);
 
@@ -58,10 +65,16 @@ const RSideBar = ({ ondisp }) => {
     { id: 5, value: 5 },
   ];
 
-  const dynamicWidth = `${updateWidth}%`;
-
   const handleChat = () => {
     setChat(!chat);
+  };
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, "0")}:${secs
+      .toString()
+      .padStart(2, "0")}`;
   };
 
   return (
@@ -88,13 +101,13 @@ const RSideBar = ({ ondisp }) => {
             <div className="relative group right-0 cursor-pointer">
               <span
                 onClick={handleChat}
-                className="absolute z-90 top-[-0.8rem] right-1"
+                className="absolute z-90 top-[-0.8rem] right-1 animate-bounce"
               >
                 <i className="fa-solid fa-lightbulb text-3xl text-amber-400"></i>
               </span>
               <div
                 className="absolute bottom-full mb-2 right-0 
-                w-max px-2 py-1 rounded bg-gray-800 text-white text-xs opacity-0 group-hover:opacity-100 
+                w-max p-4 rounded bg-gray-800 text-white text-sm opacity-0 group-hover:opacity-100 
                 transition-opacity pointer-events-none"
               >
                 Chat with Google's Gemini
@@ -106,15 +119,20 @@ const RSideBar = ({ ondisp }) => {
             <h1 className="font-[montserrat] text-xl font-semibold p-4 bg-clip-text text-transparent bg-[linear-gradient(315deg,#20bf55_0%,#01baef_74%)] text-center">
               Cryptic Hints
             </h1>
-            <div className="relative z-0 p-4 flex h-[20%] flex-col justify-center text-center bg-[rgba(245,158,11,0.1)] border border-[#d18708] rounded-md">
+
+            <div className="relative p-4 flex h-[20%] flex-col justify-center text-center bg-[rgba(245,158,11,0.1)] border border-[#d18708] rounded-md">
               <h1 className="mb-4 font-bold font-[poppins] text-[#d18708]">
-                {"00" + ":" + time}
+                {formatTime(time)}
               </h1>
-              <div
-                style={{ width: dynamicWidth, height: "0.25rem", zIndex: 90 }}
-                className="relative bg-[linear-gradient(90deg,#f59e0b,#ef4444)] rounded-xs z-50"
-              ></div>
-              <div className="absolute rounded-xs z-0 bottom-[2.65rem] mb-4 border border-[#d18708] h-[0.25rem] bg-[rgba(245,158,11,0.1)] w-[90%]"></div>
+              <div className="relative w-full h-1 mb-4">
+                <div className="absolute inset-0 bg-[rgba(245,158,11,0.1)] border border-[#d18708] rounded-full"></div>
+
+                <div
+                  className="absolute left-0 top-0 h-full bg-[linear-gradient(90deg,#f59e0b,#ef4444)] rounded-full transition-all duration-1000 ease-linear"
+                  style={{ width: `${Math.max(0, progressPercentage)}%` }}
+                ></div>
+              </div>
+
               <div className="text-md font-semibold text-[#d18708] rounded-lg mx-auto border border-amber-100 px-4 py-2">
                 Speed Run Active
               </div>
@@ -147,7 +165,7 @@ const RSideBar = ({ ondisp }) => {
                     </div>
                   ))}
                 </div>
-                <div className="bg-[rgba(10,15,28,0.9)] rounded-xl w-full border-2 h-full border-[rgba(79,209,199,0.3)]">
+                <div className="bg-[rgba(10,15,28,0.9)] rounded-xl w-full border-2 h-[10rem] border-[rgba(79,209,199,0.3)]">
                   <h1 className="font-bold text-[#4fd1c7] p-4">
                     Current Sequence:
                   </h1>

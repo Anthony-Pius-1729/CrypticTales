@@ -20,9 +20,7 @@ const App = () => {
 
   useEffect(() => {
     const result = dbData;
-
     const stories = result.data.stories;
-
     setData(stories);
     console.log("Data fetched");
   }, []);
@@ -40,7 +38,7 @@ const App = () => {
 
           {displayR && <RSideBar ondisp={handleShow} />}
         </div>
-        <div className="fixed bottom-4 left-0 right-0 px-4 flex justify-center z-50">
+        <div className="fixed bottom-4 backdrop-blur-xs left-0 right-0 px-4 flex justify-center z-50">
           <div className="flex justify-between items-center gap-8 p-6 max-w-screen-xl w-full border border-[rgba(79,209,199,0.3)] rounded-3xl bg-gradient-to-br from-[#4fd1c7] to-[#7c3aed]">
             <div className="flex items-center gap-2 text-white font-semibold whitespace-nowrap">
               <span>Score: 2,330</span>

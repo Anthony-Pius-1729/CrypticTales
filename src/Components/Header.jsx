@@ -8,7 +8,7 @@ const Header = () => {
           className="text-transparent 
         bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]
          bg-clip-text font-bold font-[VT323]
-           text-5xl"
+           text-5xl animate-pulse"
         >
           Cryptic Tales
         </h1>
