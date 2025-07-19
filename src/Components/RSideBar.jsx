@@ -9,6 +9,7 @@ const RSideBar = ({ ondisp }) => {
   const [text, setText] = useState("");
   const [time, setTime] = useState(2000);
   const [updateWidth, setUpdateWidth] = useState(100);
+
   const [disp, setDisp] = useState(true);
   const [chat, setChat] = useState(false);
 

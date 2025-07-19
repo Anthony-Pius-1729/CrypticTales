@@ -40,25 +40,24 @@ const App = () => {
 
           {displayR && <RSideBar ondisp={handleShow} />}
         </div>
-        <div className="absolute bottom-[-3.5rem] flex flex-col justify-center items-center ">
-          <div className="flex justify-between items-center mb-6 p-12 border-[0.2px] rounded-3xl border-[rgba(79,209,199,0.3)] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)] w-[87rem]">
-            <div className="flex items-center gap-2">
-              <span className="text-white font-semibold">Score: 2,330</span>
+        <div className="fixed bottom-4 left-0 right-0 px-4 flex justify-center z-50">
+          <div className="flex justify-between items-center gap-8 p-6 max-w-screen-xl w-full border border-[rgba(79,209,199,0.3)] rounded-3xl bg-gradient-to-br from-[#4fd1c7] to-[#7c3aed]">
+            <div className="flex items-center gap-2 text-white font-semibold whitespace-nowrap">
+              <span>Score: 2,330</span>
               <span>|</span>
               <span>❤️❤️❤️❤️❤️</span>
             </div>
-
             <div className="flex gap-2">
               <button
                 onClick={handleClick}
-                className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
+                className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
               >
                 Hint
               </button>
-              <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              <button className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
                 Reset
               </button>
-              <button className="px-4 py-2 border-none bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
+              <button className="px-4 py-2 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
                 Skip
               </button>
             </div>
