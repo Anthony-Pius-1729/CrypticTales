@@ -6,21 +6,24 @@ import { GoogleGenAI } from "@google/genai";
 
 const ChatComponent = ({ text }) => {
   const [aiResponse, setAiResponse] = useState("");
-  const [speak, setSpeek] = useState(false);
+  const [highlightText, setHighlightText] = useState(true);
   debugger;
-  const {
-    Text, // Component that returns the modified text property
-    speechStatus, // String that stores current speech status
-    isInQueue, // Indicates whether the speech is currently playing or waiting in the queue
-    start, // Function to start the speech or put it in queue
-    pause, // Function to pause the speech
-    stop, // Function to stop the speech or remove it from queue
-  } = useSpeech({ text: aiResponse });
-  debugger;
-  const handleAI = () => {
-    setSpeek(true);
-  };
-  // console.log("TEXT IN CHATCOOMP", text);
+  const { Text, speechStatus, start, pause, stop } = useSpeech({
+    text: aiResponse,
+    highlightText,
+    showOnlyHighlightedText: false,
+    highlightMode: "word",
+    highlightProps: {
+      style: {
+        color: "white",
+        backgroundColor: "#799EFF",
+        padding: "0.3rem",
+        border: "none",
+        borderRadius: "0.2rem",
+      },
+    },
+  });
+
   useEffect(() => {
     const GEMINI_API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
 
@@ -42,7 +45,7 @@ const ChatComponent = ({ text }) => {
           model: "gemini-2.5-flash",
           contents:
             text +
-            ". Mark down your response and Limit explanatory and other  responses to 40 words ",
+            ". Mark down up your response and Limit explanatory and other  responses to 40 words ",
         });
 
         setAiResponse(response.text);
@@ -90,6 +93,13 @@ const ChatComponent = ({ text }) => {
             onClick={stop}
           >
             Stop
+          </button>
+          <button onClick={() => setHighlightText(!highlightText)}>
+            {highlightText ? (
+              <i class="fa-solid fa-eye"></i>
+            ) : (
+              <i class="fa-solid fa-eye-slash"></i>
+            )}
           </button>
         </div>
       )}
