@@ -3,12 +3,13 @@ import Countdown from "react-countdown";
 import PatternBuilder from "./PatternBuilder";
 import ChatComponent from "./ChatComponent";
 
-const RSideBar = ({ ondisp }) => {
+const RSideBar = ({ ondisp, sequenceData }) => {
   const INITIAL_TIME = 60;
   const [text, setText] = useState("");
   const [time, setTime] = useState(INITIAL_TIME);
   const [disp, setDisp] = useState(true);
   const [chat, setChat] = useState(false);
+  console.log("right bar", sequenceData);
 
   const progressPercentage = (time / INITIAL_TIME) * 100;
 
@@ -37,7 +38,9 @@ const RSideBar = ({ ondisp }) => {
       id: 1,
       icon: <i className="mr-2.5 text-xl">🔢</i>,
       heading: "Mathematical clue:",
-      explanation: "Each number follows the golden ratio sequence...",
+      explanation: sequenceData
+        ? `Each letter maps to ${sequenceData.sequenceName.toLowerCase()} values...`
+        : "Each number follows a mathematical sequence...",
     },
     {
       id: 2,
@@ -53,9 +56,14 @@ const RSideBar = ({ ondisp }) => {
         <i className="fa-solid fa-bullseye mr-2.5 text-xl text-[rgb(252,83,61)]"></i>
       ),
       heading: "Pattern Recognition:",
-      explanation: "Look for the sum of consecutive terms...",
+      explanation: sequenceData?.sequencePreview
+        ? `Look at the pattern: ${sequenceData.sequencePreview
+            .slice(0, 5)
+            .join(", ")}...`
+        : "Look for the sum of consecutive terms...",
     },
   ];
+  // console.log(sequenceData?.sequenceArray);
 
   const partialSequence = [
     { id: 1, value: 1 },
@@ -170,14 +178,16 @@ const RSideBar = ({ ondisp }) => {
                     Current Sequence:
                   </h1>
                   <div className="grid grid-cols-6 px-4 overflow-y-auto overscroll-contain">
-                    {partialSequence.map((btn) => (
-                      <button
-                        key={btn.id}
-                        className="bg-[#031a19] text-[#4fd1c7] border border-[#39978f] p-1 w-[2rem] mb-1.5 rounded-md gap-x-6"
-                      >
-                        {btn.value}
-                      </button>
-                    ))}
+                    {sequenceData?.sequenceArray
+                      ?.slice(0, 12)
+                      ?.map((value, index) => (
+                        <button
+                          key={index}
+                          className="bg-[#031a19] text-[#4fd1c7] border border-[#39978f] p-1 w-[2rem] mb-1.5 rounded-md gap-x-6"
+                        >
+                          {value}
+                        </button>
+                      ))}
                   </div>
                 </div>
               </div>

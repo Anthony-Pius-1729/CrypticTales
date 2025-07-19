@@ -9,6 +9,11 @@ import ChatComponent from "./Components/ChatComponent";
 const App = () => {
   const [data, setData] = useState([]);
   const [displayR, setDisplayR] = useState(false);
+  const [seqData, setSeqData] = useState(null);
+
+  const handleDatas = (x) => {
+    setSeqData(x);
+  };
 
   const handleShow = () => {
     setDisplayR(false);
@@ -34,9 +39,9 @@ const App = () => {
         <div className="w-full h-[100vh] px-6 pt-6  gap-x-4 flex justify-center">
           <LSideBar />
 
-          <Board dataSet={finalData} />
+          <Board dataSet={finalData} handleData={handleDatas} />
 
-          {displayR && <RSideBar ondisp={handleShow} />}
+          {displayR && <RSideBar ondisp={handleShow} sequenceData={seqData} />}
         </div>
         <div className="fixed bottom-4 backdrop-blur-xs left-0 right-0 px-4 flex justify-center z-50">
           <div className="flex justify-between items-center gap-8 p-6 max-w-screen-xl w-full border border-[rgba(79,209,199,0.3)] rounded-3xl bg-gradient-to-br from-[#4fd1c7] to-[#7c3aed]">
