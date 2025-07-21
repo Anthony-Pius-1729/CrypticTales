@@ -65,13 +65,13 @@ const App = () => {
                 onClick={handleClick}
                 className="px-4 py-2  hover:border-1  backdrop-blur-sm bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors"
               >
-                Hint
+                <i class="fa-solid text-xl mr-0.5">🤔</i> Hint
               </button>
               <button className="px-4 py-2 hover:border-1 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
-                Reset
+                <i class="fa-solid fa-repeat mr-0.5"></i> Reset
               </button>
               <button className="px-4 py-2 hover:border-1 bg-white/20 hover:bg-white/30 text-white rounded-lg font-semibold transition-colors">
-                Skip
+                <i class="fa-solid fa-forward mr-0.5"></i> Skip
               </button>
             </div>
           </div>

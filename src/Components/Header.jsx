@@ -27,8 +27,8 @@ const Header = ({ header, seq }) => {
         </h1>
         <div className="flex justify-start gap-x-5 items-center">
           <p className="">Chapter 1: {header}</p>
-          <div className="bg-purple-950 rounded-2xl p-2 flex justify-center">
-            <p className="text-sm px-2.5 text-purple-300">
+          <div className="bg-purple-950 rounded-2xl p-2 flex justify-center transition-transform ease-in-out hover:border-2 hover:border-purple-50 hover:scale-105">
+            <p className="text-sm px-2.5 text-purple-300 ">
               Pattern: {sequencePatterns[seq]}
             </p>
           </div>

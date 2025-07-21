@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import decodeImg from "../assets/decode.png";
 
 const Keys = ({ dataSet, handleData, heading, getSeq }) => {
   ///STATES
@@ -139,7 +140,6 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
 
   React.useEffect(() => {
     if (handleData) {
-      // console.log("in keys");
       handleData({
         level: currentLevel,
         sequenceKey,
@@ -269,14 +269,19 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
           />
           <button
             onClick={handleClick}
-            className="p-2 outline-none rounded-lg text-gray-50 border-[rgba(79,209,199,0.3)] font-semibold border-none w-[30%] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]"
+            className="p-2 transition-transform ease-in-out  hover: hover:border-1 hover:border-purple-50 hover:scale-105 outline-none rounded-lg text-gray-50 border-[rgba(79,209,199,0.3)] font-semibold border-0 w-[30%] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]"
           >
+            {/* <img
+              src={decodeImg}
+              className="w-[20%] h-full inline-block items-center mr-3.5"
+            />{" "} */}
             Decode
           </button>
         </div>
       </div>
     </>
   );
+  ß;
 };
 
 export default Keys;
