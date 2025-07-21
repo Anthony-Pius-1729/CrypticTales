@@ -39,19 +39,19 @@ const ChatComponent = ({ text }) => {
 
     async function generateContent() {
       if (!text) return;
-      console.log("GEMINI API STARTED");
+      // console.log("GEMINI API STARTED");
       try {
         const response = await ai.models.generateContent({
           model: "gemini-2.5-flash",
           contents:
             text +
-            ". Mark down up your response and Limit explanatory and other  responses to 40 words ",
+            ". Mark down up your response and Limit explanatory and other  responses to 40 words MAX ",
         });
 
         setAiResponse(response.text);
-        console.log("GEMINI API FINISHED");
+        // console.log("GEMINI API FINISHED");
 
-        console.log("Gemini API Response:", response.text);
+        // console.log("Gemini API Response:", response.text);
       } catch (error) {
         console.error("Error calling Gemini API:", error);
 

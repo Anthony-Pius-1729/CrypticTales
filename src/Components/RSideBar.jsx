@@ -9,7 +9,7 @@ const RSideBar = ({ ondisp, sequenceData }) => {
   const [time, setTime] = useState(INITIAL_TIME);
   const [disp, setDisp] = useState(true);
   const [chat, setChat] = useState(false);
-  console.log("right bar", sequenceData);
+  // console.log("right bar", sequenceData);
 
   const progressPercentage = (time / INITIAL_TIME) * 100;
 

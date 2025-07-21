@@ -13,10 +13,12 @@
     "@google/genai": "^1.10.0",
     "@react-three/fiber": "^9.2.0",
     "@tailwindcss/vite": "^4.1.11",
+    "algebra.js": "^0.2.6",
     "react": "^19.1.0",
     "react-countdown": "^2.3.6",
     "react-dom": "^19.1.0",
     "react-markdown": "^10.1.0",
+    "react-markdown-math": "^1.0.2",
     "react-text-to-speech": "^2.1.2",
     "tailwindcss": "^4.1.11",
     "three": "^0.178.0"

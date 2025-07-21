@@ -1,6 +1,19 @@
 import React from "react";
 
-const Header = () => {
+const Header = ({ header, seq }) => {
+  const sequencePatterns = {
+    lucas: "L_n = L_{n-1} + L_{n-2} ",
+    primes: "Sieve of Eratosthenes",
+    triangular: "T_n = n * (n + 1) / 2",
+    pentagonal: "P_n = n * (3 * n - 1) / 2",
+    fibonacci: "F_n = F_{n-1} + F_{n-2} ",
+    powers_of_2: "2^n (for n >= 0)",
+    squares: "n^2 (for n >= 0)",
+    cubes: "n^3 (for n >= 0)",
+    tetrahedral: "Te_n = n * (n + 1) * (n + 2) / 6",
+    hexagonal: "H_n = n * (2 * n - 1)",
+  };
+
   return (
     <>
       <div className="flex justify-between sticky top-0.5 items-center bg-[rgba(15,15,35,0.8)] backdrop-blur-3xl h-full m-5 p-4 rounded-lg text-white border-[1px] border-[rgba(79,209,199,0.3)]">
@@ -13,10 +26,10 @@ const Header = () => {
           Cryptic Tales
         </h1>
         <div className="flex justify-start gap-x-5 items-center">
-          <p className="">Chapter 1: The Fibonacci Mystery</p>
+          <p className="">Chapter 1: {header}</p>
           <div className="bg-purple-950 rounded-2xl p-2 flex justify-center">
             <p className="text-sm px-2.5 text-purple-300">
-              Pattern: F(n) = F(n-1) + F(n-2)
+              Pattern: {sequencePatterns[seq]}
             </p>
           </div>
         </div>

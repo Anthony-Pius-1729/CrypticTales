@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-const Keys = ({ dataSet, handleData }) => {
+const Keys = ({ dataSet, handleData, heading, getSeq }) => {
   ///STATES
   const [written, setWritten] = useState("");
   const [currentLevel, setCurrentLevel] = useState(1);
@@ -139,7 +139,7 @@ const Keys = ({ dataSet, handleData }) => {
 
   React.useEffect(() => {
     if (handleData) {
-      console.log("in keys");
+      // console.log("in keys");
       handleData({
         level: currentLevel,
         sequenceKey,
@@ -147,6 +147,8 @@ const Keys = ({ dataSet, handleData }) => {
         sequenceArray,
         sequencePreview: sequenceArray.slice(0, 10),
       });
+      heading(sequenceNames[sequenceKey]);
+      getSeq(sequenceKey);
     }
   }, [currentLevel, sequenceKey, handleData]);
 

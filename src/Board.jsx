@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
 import Keys from "./Components/Keys";
 
-const Board = ({ dataSet, handleData }) => {
+const Board = ({ dataSet, handleData, heading, getSeq }) => {
   // debugger;
-  console.log("in board", handleData);
-  console.log(dataSet[0]);
+  // console.log("in board", handleData);
+  // console.log(dataSet[0]);
   const title = dataSet?.[0]?.[`title`];
   const author = dataSet?.[0]?.[`author`];
-  console.log(title);
-  console.log(author);
+  // console.log(title);
+  // console.log(author);
 
   return (
     <>
@@ -24,7 +24,12 @@ const Board = ({ dataSet, handleData }) => {
         <h3 className="text-xl  text-[#14a297] opacity-45 italic">
           {title} <span className="text-lg">by {author}</span>{" "}
         </h3>
-        <Keys dataSet={dataSet} handleData={handleData} />
+        <Keys
+          dataSet={dataSet}
+          handleData={handleData}
+          heading={heading}
+          getSeq={getSeq}
+        />
       </div>
     </>
   );
