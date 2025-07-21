@@ -14,7 +14,6 @@ const GameOver = ({
         <h1 className="bg-red-700 text-white px-4 py-2 text-3xl font-semibold mb-6">
           GAME OVER
         </h1>
-
         {/* Correct text and Mapping*/}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full mb-6">
           <div className="bg-gray-50 p-4 rounded">

@@ -4,10 +4,13 @@ import decodeImg from "../assets/decode.png";
 const Keys = ({ dataSet, handleData, heading, getSeq }) => {
   ///STATES
   const [written, setWritten] = useState("");
+  const [correct, setCorrect] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
+  const [score, setScore] = useState(0);
 
   ///DEFINE PRIORITY CONSTANTS
   const base = dataSet?.[0]?.[`story_text`]?.replaceAll(" ", "");
+  // console.log(base);
   const textArray = base?.split("");
   const len = textArray?.length;
   const special_chars = `/^[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]*$/`;
@@ -171,19 +174,29 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
   };
 
   const handleClick = () => {
+    setWritten("");
+    console.log("WRITTEN", written.toLocaleUpperCase().replaceAll(" ", ""));
+    console.log("BASE:", base.slice(0, 36).toLocaleUpperCase());
+    // Elara,ayoungenchantress,wanderedinto
+
     if (
       written.toLocaleUpperCase().replaceAll(" ", "") ==
       base.slice(0, 36).toLocaleUpperCase()
     ) {
       setCurrentLevel((prev) => prev + 1);
-      setWritten("");
+      setScore((marks) => marks + 100);
+      setCorrect(!correct);
+
+      console.log("correct");
       return;
+    } else {
+      console.log("incorrect");
     }
   };
 
   return (
     <>
-      <div>
+      <div className="relative">
         <div className="mx-6 mb-4  my-8 flex justify-between items-center">
           <div className="text-[#4fd1c7] font-semibold">
             Level {currentLevel}
@@ -263,6 +276,8 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
         <div className="flex justify-between mx-6 gap-x-4">
           <input
             onChange={handleChange}
+            value={written}
+            id="inputBox"
             type="text"
             placeholder="Enter decoded text..."
             className="p-6 drop-shadow-md drop-shadow-[#4fd1c7] border-2 border-[#4fd1c7] outline-none w-full h-[2rem] rounded-md text-gray-400 bg-[rgba(19,35,63,0.9)]"
@@ -278,6 +293,16 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
             Decode
           </button>
         </div>
+        {correct && (
+          <div class="bg-[rgba(47,122,115,0.8)] rounded-md border-0 z-50 absolute top-0 right-0 flex flex-col justify-center items-center text-center w-full h-full mx-auto">
+            <div class="w-[50%] h-[30%] bg-white flex flex-col justify-center items-center border-[rgba(10,18,33,0.5)] shadow-xl shadow-[rgba(10,18,33,0.5)] border-2 rounded-lg">
+              <h1 class="text-3xl font-semibold my-4">Hacker!</h1>
+              <button class="px-4 py-2 rounded-md text-gray-100 w-[50%] bg-[rgba(10,18,33,0.9)]">
+                Next <i class="fa-solid fa-arrow-right ml-2 animate-pulse"></i>
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </>
   );

@@ -54,7 +54,7 @@ const Board = ({ dataSet, handleData, heading, getSeq }) => {
             </h3>
           </div>
         </div>
-        {time < 300 ? (
+        {time > 300 ? (
           <GameOver />
         ) : (
           <Keys
