@@ -12,6 +12,7 @@ const App = () => {
   const [seqData, setSeqData] = useState(null);
   const [head, setHead] = useState("");
   const [seq, setSeq] = useState("");
+  const [mark, setMark] = useState(0);
 
   const handleDatas = (x) => {
     setSeqData(x);
@@ -19,6 +20,9 @@ const App = () => {
 
   const handleHead = (x) => {
     setHead(x);
+  };
+  const handleMark = (x) => {
+    setMark(x);
   };
 
   const handleShow = () => {
@@ -49,6 +53,7 @@ const App = () => {
             handleData={handleDatas}
             heading={handleHead}
             getSeq={setSeq}
+            getScore={handleMark}
           />
 
           {displayR && <RSideBar ondisp={handleShow} sequenceData={seqData} />}
@@ -56,7 +61,7 @@ const App = () => {
         <div className="fixed bottom-4 backdrop-blur-xs left-0 right-0 px-4 flex justify-center z-50">
           <div className="flex justify-between items-center gap-8 p-6 max-w-screen-xl w-full border border-[rgba(79,209,199,0.3)] rounded-3xl bg-gradient-to-br from-[#4fd1c7] to-[#7c3aed]">
             <div className="flex items-center gap-2 text-white font-semibold whitespace-nowrap">
-              <span>Score: 2,330</span>
+              <span>Score: {mark}</span>
               <span>|</span>
               <span>❤️❤️❤️❤️❤️</span>
             </div>

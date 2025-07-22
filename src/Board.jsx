@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import Keys from "./Components/Keys";
 import GameOver from "./GameOver";
 
-const Board = ({ dataSet, handleData, heading, getSeq }) => {
-  const TIME = 0;
-  const [time, setTime] = useState(0);
+const Board = ({ dataSet, handleData, heading, getSeq, getScore }) => {
+  const TIME = 400;
+  const [time, setTime] = useState(TIME);
 
   useEffect(() => {
     debugger;
@@ -54,7 +54,7 @@ const Board = ({ dataSet, handleData, heading, getSeq }) => {
             </h3>
           </div>
         </div>
-        {time > 300 ? (
+        {time < 300 ? (
           <GameOver />
         ) : (
           <Keys
@@ -62,6 +62,7 @@ const Board = ({ dataSet, handleData, heading, getSeq }) => {
             handleData={handleData}
             heading={heading}
             getSeq={getSeq}
+            getMark={getScore}
           />
         )}
       </div>

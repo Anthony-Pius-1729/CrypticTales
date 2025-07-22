@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import decodeImg from "../assets/decode.png";
 
-const Keys = ({ dataSet, handleData, heading, getSeq }) => {
+const Keys = ({ dataSet, handleData, heading, getSeq, getMark }) => {
+  console.log(getMark);
   ///STATES
   const [written, setWritten] = useState("");
   const [correct, setCorrect] = useState(false);
   const [currentLevel, setCurrentLevel] = useState(1);
-  const [score, setScore] = useState(0);
+  const [score, setScore] = useState(10);
+  const [close, setClose] = useState(false);
 
   ///DEFINE PRIORITY CONSTANTS
   const base = dataSet?.[0]?.[`story_text`]?.replaceAll(" ", "");
@@ -185,6 +187,7 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
     ) {
       setCurrentLevel((prev) => prev + 1);
       setScore((marks) => marks + 100);
+      getMark((marks) => marks + 100);
       setCorrect(!correct);
 
       console.log("correct");
@@ -192,6 +195,10 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
     } else {
       console.log("incorrect");
     }
+  };
+
+  const handleClose = () => {
+    setCorrect(!correct);
   };
 
   return (
@@ -294,13 +301,16 @@ const Keys = ({ dataSet, handleData, heading, getSeq }) => {
           </button>
         </div>
         {correct && (
-          <div class="bg-[rgba(47,122,115,0.8)] rounded-md border-0 z-50 absolute top-0 right-0 flex flex-col justify-center items-center text-center w-full h-full mx-auto">
+          <div class="bg-[rgba(47,122,115,0.8)] transition-all ease-in-out delay-100  rounded-md border-0 z-50 absolute top-0 right-0 flex flex-col justify-center items-center text-center w-full h-full mx-auto">
             <div class="w-[50%] h-[30%] bg-white flex flex-col justify-center items-center border-[rgba(10,18,33,0.5)] shadow-xl shadow-[rgba(10,18,33,0.5)] border-2 rounded-lg">
               <h1 class="text-3xl font-semibold my-4">Hacker!</h1>
               <button class="px-4 py-2 rounded-md text-gray-100 w-[50%] bg-[rgba(10,18,33,0.9)]">
                 Next <i class="fa-solid fa-arrow-right ml-2 animate-pulse"></i>
               </button>
             </div>
+            <button onClick={handleClose} className="absolute  -top-3 -right-3">
+              <i class="fa-solid fa-circle-xmark text-4xl text-red-600  hover:text-red-700"></i>
+            </button>
           </div>
         )}
       </div>
