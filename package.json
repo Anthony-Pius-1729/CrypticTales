@@ -12,6 +12,7 @@
   "dependencies": {
     "@google/genai": "^1.10.0",
     "@react-three/fiber": "^9.2.0",
+    "@supabase/supabase-js": "^2.52.0",
     "@tailwindcss/vite": "^4.1.11",
     "algebra.js": "^0.2.6",
     "react": "^19.1.0",

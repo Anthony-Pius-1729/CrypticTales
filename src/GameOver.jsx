@@ -7,6 +7,7 @@ const GameOver = ({
   timeElapsed = "5:32",
   accuracy = 85,
   wordsPerMinute = 0,
+  ç,
 }) => {
   return (
     <>

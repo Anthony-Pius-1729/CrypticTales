@@ -43,7 +43,7 @@ const App = () => {
 
   return (
     <>
-      <div className="relative overflow-x-hidden scroll-smooth   justify-center font-[raleway] bg-[linear-gradient(135deg,#0f0f23_0%,#1a1a2e_50%,#16213e_100%)] px-4 w-full h-full flex flex-col">
+      <div className="relative overflow-x-hidden scroll-smooth pt-6   justify-center font-[raleway] bg-[linear-gradient(135deg,#0f0f23_0%,#1a1a2e_50%,#16213e_100%)] px-4 w-full h-full flex flex-col">
         <Header header={head} seq={seq} />
         <div className="w-full h-[100vh] px-6 pt-6  gap-x-4 flex justify-center">
           <LSideBar />

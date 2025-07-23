@@ -33,6 +33,14 @@ const Header = ({ header, seq }) => {
             </p>
           </div>
         </div>
+        <div className="flex justify-between gap-x-7">
+          <button className="px-4 py-2 bg-amber-400 hover:bg-amber-400/80 border-none rounded-lg font-semibold">
+            Login
+          </button>
+          <button className="px-4 py-2 bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold">
+            Sign Up
+          </button>
+        </div>
       </div>
     </>
   );
