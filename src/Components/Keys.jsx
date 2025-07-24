@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// decodeImg is commented out in your original return, so removing if not used
-// import decodeImg from "../assets/decode.png";
 
 const Keys = ({
   dataSet,
@@ -122,7 +120,6 @@ const Keys = ({
     ],
   };
 
-  // AUTO-SELECT SEQUENCE BASED ON LEVEL
   const levelSequences = {
     1: "squares",
     2: "triangular",
@@ -174,9 +171,7 @@ const Keys = ({
     Maps[alphabet[i]] = sequenceArray[i];
   }
 
-  // wordVerifLen is not used, can remove if not needed
   let wordVerif = written.replaceAll(" ", "").toLocaleUpperCase();
-  // let wordVerifLen = wordVerif.length;
 
   const handleChange = (e) => {
     setWritten(e.currentTarget.value);
@@ -187,31 +182,25 @@ const Keys = ({
   };
 
   const handleClick = () => {
-    setWritten(""); // Clear input after checking
-
-    // Ensure base has data before comparison
+    setWritten("");
     if (!base) {
       console.warn("dataSet is empty or story_text is missing.");
       console.log("incorrect (no story text)");
-      // Optionally provide user feedback here
       return;
     }
 
-    // Comparing the first 36 characters of the story text
-    // Consider making the length for comparison dynamic or configurable.
     const expectedText = base.slice(0, 36).toLocaleUpperCase();
     const enteredText = written.toLocaleUpperCase().replaceAll(" ", "");
 
     if (enteredText === expectedText) {
       setCurrentLevel((prev) => prev + 1);
       setScore((marks) => marks + 100);
-      getScore((marks) => marks + 100); // Using getScore as named in App.jsx
-      setCorrect(true); // Set to true to display the "Hacker!" modal
+      getScore((marks) => marks + 100);
+      setCorrect(true);
 
       console.log("correct");
     } else {
       console.log("incorrect");
-      // You might want to provide visual feedback for incorrect input here
     }
   };
 
@@ -294,7 +283,7 @@ const Keys = ({
                         : "rgba(10,18,33,0.9)", // Default background
                       color: isCorrectChar
                         ? "#1e293b" // Correct character color
-                        : "#4fd1c7",
+                        : "#4fd1c7", // Wrong character color
                     }}
                     className="p-2 w-16 text-sm border border-[#39978f] font-semibold rounded-xl m-2"
                   >

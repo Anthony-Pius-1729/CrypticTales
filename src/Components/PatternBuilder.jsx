@@ -10,7 +10,6 @@ const PatternBuilder = ({ onTextChange }) => {
 
   const handleSend = () => {
     onTextChange(text);
-    // console.log(text);
     setText("");
   };
 

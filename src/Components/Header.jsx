@@ -1,7 +1,8 @@
 import React from "react";
 import { supabase } from "../supabase-client";
 
-const Header = ({ header, seq, AUTH_STATE }) => {
+const Header = ({ header, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
+  console.log("LOGGED IN?", CURR_AUTH_STATES);
   const sequencePatterns = {
     lucas: "L_n = L_{n-1} + L_{n-2} ",
     primes: "Sieve of Eratosthenes",
@@ -14,20 +15,20 @@ const Header = ({ header, seq, AUTH_STATE }) => {
     tetrahedral: "Te_n = n * (n + 1) * (n + 2) / 6",
     hexagonal: "H_n = n * (2 * n - 1)",
   };
-  const handleSignUp = async () => {
+
+  const handleSignOut = async () => {
+    const { error } = await supabase.auth.signOut();
+    console.log("User signed out");
+  };
+  const handleSignUp = () => {
+    console.log("Sign up button is clicked");
     AUTH_STATE({ login: false, signup: true });
-    const { data, error } = await supabase.auth.signUp({
-      email: "valid.email@supabase.io",
-      password: "example-password",
-    });
+
     console.log("Sign up button is clicked");
   };
-  const handleLogin = async () => {
+  const handleLogin = () => {
     AUTH_STATE({ login: true, signup: false });
-    const { data, error } = await supabase.auth.signUp({
-      email: "valid.email@supabase.io",
-      password: "example-password",
-    });
+
     console.log("Setting current auth state");
     console.log("login btn clicked");
   };
@@ -58,12 +59,21 @@ const Header = ({ header, seq, AUTH_STATE }) => {
           >
             Login
           </button>
-          <button
-            onClick={handleSignUp}
-            className="px-4 py-2 cursor-pointer  bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold"
-          >
-            Sign Up
-          </button>
+          {CURR_AUTH_STATES.loggedIn ? (
+            <button
+              onClick={handleSignOut}
+              className="px-4 py-2 cursor-pointer  bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold"
+            >
+              Sign Out
+            </button>
+          ) : (
+            <button
+              onClick={handleSignUp}
+              className="px-4 py-2 cursor-pointer  bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold"
+            >
+              Sign Up
+            </button>
+          )}
         </div>
       </div>
     </>

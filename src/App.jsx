@@ -6,7 +6,6 @@ import Header from "./Components/Header";
 import Login from "./Components/Login";
 import Signup from "./Components/SignUp";
 import dbData from "./data.json";
-
 import { supabase } from "./supabase-client";
 
 const App = () => {
@@ -101,6 +100,7 @@ const App = () => {
         <Header
           header={head}
           seq={seq}
+          CURR_AUTH_STATES={authDisplayState}
           AUTH_STATE={handleAuthDisplayState}
           currentAuthStatus={authDisplayState.loggedIn}
           userEmail={authDisplayState.user?.email}
@@ -123,11 +123,13 @@ const App = () => {
           )}
           {displayR && <RSideBar ondisp={handleShow} sequenceData={seqData} />}
         </div>
-
         <div className="fixed bottom-4 backdrop-blur-xs left-0 right-0 px-4 flex justify-center z-50">
           <div className="flex justify-between items-center gap-8 p-6 max-w-screen-xl w-full border border-[rgba(79,209,199,0.3)] rounded-3xl bg-gradient-to-br from-[#4fd1c7] to-[#7c3aed]">
             <div className="flex items-center gap-2 text-white font-semibold whitespace-nowrap">
-              <span>Score: {mark}</span>
+              <span>
+                Score:{" "}
+                {authDisplayState.loggedIn ? mark : `Log In to View Score`}
+              </span>
               <span>|</span>
               <span>❤️❤️❤️❤️❤️</span>
             </div>
