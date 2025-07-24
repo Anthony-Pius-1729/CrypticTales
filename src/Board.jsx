@@ -2,7 +2,14 @@ import React, { useEffect, useState } from "react";
 import Keys from "./Components/Keys";
 import GameOver from "./GameOver";
 
-const Board = ({ dataSet, handleData, heading, getSeq, getScore }) => {
+const Board = ({
+  dataSet,
+  handleData,
+  heading,
+  getSeq,
+  getScore,
+  AUTH_STATES,
+}) => {
   const TIME = 400;
   const [time, setTime] = useState(TIME);
 
@@ -58,6 +65,7 @@ const Board = ({ dataSet, handleData, heading, getSeq, getScore }) => {
           <GameOver />
         ) : (
           <Keys
+            AUTH_STATES={AUTH_STATES}
             dataSet={dataSet}
             handleData={handleData}
             heading={heading}

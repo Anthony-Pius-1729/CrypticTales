@@ -1,8 +1,23 @@
 import React, { useState, useEffect } from "react";
 import decodeImg from "../assets/decode.png";
 
-const Keys = ({ dataSet, handleData, heading, getSeq, getMark }) => {
-  console.log(getMark);
+const Keys = ({
+  dataSet,
+  handleData,
+  heading,
+  getSeq,
+  getMark,
+  AUTH_STATES,
+}) => {
+  // console.log(" AUTH_STATES: ", AUTH_STATES);
+  // console.log(
+  //   "AUTH STATE LOGIN STATUS and type : ",
+  //   AUTH_STATES?.currentAuthState?.login,
+  //   typeof AUTH_STATES?.currentAuthState
+  // );
+
+  const LOGIN = AUTH_STATES?.currentAuthState?.login;
+
   ///STATES
   const [written, setWritten] = useState("");
   const [correct, setCorrect] = useState(false);
@@ -177,8 +192,8 @@ const Keys = ({ dataSet, handleData, heading, getSeq, getMark }) => {
 
   const handleClick = () => {
     setWritten("");
-    console.log("WRITTEN", written.toLocaleUpperCase().replaceAll(" ", ""));
-    console.log("BASE:", base.slice(0, 36).toLocaleUpperCase());
+    // console.log("WRITTEN", written.toLocaleUpperCase().replaceAll(" ", ""));
+    // console.log("BASE:", base.slice(0, 36).toLocaleUpperCase());
     // Elara,ayoungenchantress,wanderedinto
 
     if (
@@ -236,6 +251,7 @@ const Keys = ({ dataSet, handleData, heading, getSeq, getMark }) => {
             Current Sequence: {sequenceNames[sequenceKey]}
           </h3>
           <div className="text-[#4fd1c7] text-sm">
+            $
             {alphabet.slice(0, 4).map((letter, idx) => (
               <span key={letter} className="mr-4">
                 {letter}={sequenceArray[idx]}

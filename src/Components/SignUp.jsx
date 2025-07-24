@@ -1,37 +1,39 @@
+// components/Signup.jsx
 import React, { useState } from "react";
-import { supabase } from "../supabase-client";
-const Login = ({ AUTH_STATE }) => {
+import { supabase } from "../supabaseClient"; // Adjust path as needed
+
+const Signup = ({ AUTH_STATE }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
-  const handleLogin = async (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
     setLoading(true);
     setMessage("");
-    AUTH_STATE({ login: true, signup: false });
+    AUTH_STATE({ login: false, signup: true });
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { error } = await supabase.auth.signUp({
       email,
       password,
     });
 
     if (error) {
       setMessage(`Error: ${error.message}`);
-      console.error("Login error:", error.message);
+      console.error("Sign up error:", error.message);
     } else {
-      setMessage("Login successful! Redirecting...");
-
-      console.log("User logged in!");
+      setMessage(
+        "Sign up successful! Please check your email for a confirmation link."
+      );
     }
     setLoading(false);
   };
 
   return (
-    <div className="login-container">
-      <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+    <div className="signup-container">
+      <h2>Sign Up</h2>
+      <form onSubmit={handleSignup}>
         <div>
           <label htmlFor="email">Email:</label>
           <input
@@ -49,7 +51,7 @@ const Login = ({ AUTH_STATE }) => {
             type="password"
             id="password"
             value={password}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="p-2 border rounded text-black"
           />
@@ -57,23 +59,23 @@ const Login = ({ AUTH_STATE }) => {
         <button
           type="submit"
           disabled={loading}
-          className="mt-4 p-2 bg-blue-500 text-white rounded"
+          className="mt-4 p-2 bg-green-500 text-white rounded"
         >
-          {loading ? "Logging In..." : "Login"}
+          {loading ? "Signing Up..." : "Sign Up"}
         </button>
       </form>
       {message && <p className="mt-2 text-sm">{message}</p>}
       <p className="mt-4 text-sm text-center">
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <span
           className="text-blue-400 cursor-pointer"
-          onClick={() => AUTH_STATE({ login: false, signup: true })}
+          onClick={() => AUTH_STATE({ login: true, signup: false })}
         >
-          Sign Up
+          Login
         </span>
       </p>
     </div>
   );
 };
 
-export default Login;
+export default Signup;

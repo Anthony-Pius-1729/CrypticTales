@@ -1,6 +1,7 @@
 import React from "react";
+import { supabase } from "../supabase-client";
 
-const Header = ({ header, seq }) => {
+const Header = ({ header, seq, AUTH_STATE }) => {
   const sequencePatterns = {
     lucas: "L_n = L_{n-1} + L_{n-2} ",
     primes: "Sieve of Eratosthenes",
@@ -12,6 +13,18 @@ const Header = ({ header, seq }) => {
     cubes: "n^3 (for n >= 0)",
     tetrahedral: "Te_n = n * (n + 1) * (n + 2) / 6",
     hexagonal: "H_n = n * (2 * n - 1)",
+  };
+  const handleSignUp = () => {
+    console.log("Sign up button is clicked");
+  };
+  const handleLogin = async () => {
+    AUTH_STATE({ login: true, signup: false });
+    const { data, error } = await supabase.auth.signUp({
+      email: "valid.email@supabase.io",
+      password: "example-password",
+    });
+    console.log("Setting current auth state");
+    console.log("login btn clicked");
   };
 
   return (
@@ -34,10 +47,16 @@ const Header = ({ header, seq }) => {
           </div>
         </div>
         <div className="flex justify-between gap-x-7">
-          <button className="px-4 py-2 bg-amber-400 hover:bg-amber-400/80 border-none rounded-lg font-semibold">
+          <button
+            onClick={handleLogin}
+            className="px-4 py-2 cursor-pointer  bg-amber-400 hover:bg-amber-400/80 border-none rounded-lg font-semibold"
+          >
             Login
           </button>
-          <button className="px-4 py-2 bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold">
+          <button
+            onClick={handleSignUp}
+            className="px-4 py-2 cursor-pointer  bg-amber-600 hover:bg-amber-600/80 border-none rounded-lg font-semibold"
+          >
             Sign Up
           </button>
         </div>
