@@ -21,7 +21,6 @@ const Login = ({ AUTH_STATE }) => {
       console.error("Login error:", error.message);
     } else {
       setMessage("Login successful! Redirecting...");
-      console.log("User logged in!");
     }
     setLoading(false);
   };

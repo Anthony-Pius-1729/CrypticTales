@@ -2,7 +2,6 @@ import React from "react";
 import { supabase } from "../supabase-client";
 
 const Header = ({ header, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
-  console.log("LOGGED IN?", CURR_AUTH_STATES);
   const sequencePatterns = {
     lucas: "L_n = L_{n-1} + L_{n-2} ",
     primes: "Sieve of Eratosthenes",
@@ -51,6 +50,11 @@ const Header = ({ header, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
               Pattern: {sequencePatterns[seq]}
             </p>
           </div>
+        </div>
+        <div className="h-full">
+          <button className="px-4 py-2 cursor-pointer border-2 hover:border-2 hover:border-purple-50 hover:scale-105 font-semibold h-full w-full bg-amber-900 text-white border-none rounded-lg ">
+            LeaderBoard
+          </button>
         </div>
         <div className="flex justify-between gap-x-7">
           <button

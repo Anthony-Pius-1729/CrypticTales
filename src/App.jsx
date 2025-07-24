@@ -7,6 +7,8 @@ import Login from "./Components/Login";
 import Signup from "./Components/SignUp";
 import dbData from "./data.json";
 import { supabase } from "./supabase-client";
+import Players from "./Components/Players";
+import LeaderBoard from "./Components/LeaderBoard";
 
 const App = () => {
   const [data, setData] = useState([]);
@@ -105,6 +107,8 @@ const App = () => {
           currentAuthStatus={authDisplayState.loggedIn}
           userEmail={authDisplayState.user?.email}
         />
+        <Players />
+        <LeaderBoard />
         <div className="w-full h-[100vh] px-6 pt-6 gap-x-4 flex justify-center">
           <LSideBar />
           {authDisplayState.login && !authDisplayState.loggedIn ? (
@@ -128,7 +132,7 @@ const App = () => {
             <div className="flex items-center gap-2 text-white font-semibold whitespace-nowrap">
               <span>
                 Score:{" "}
-                {authDisplayState.loggedIn ? mark : `Log In to View Score`}
+                {authDisplayState.loggedIn ? mark : `Login to View Score`}
               </span>
               <span>|</span>
               <span>❤️❤️❤️❤️❤️</span>

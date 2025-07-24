@@ -39,7 +39,6 @@ const ChatComponent = ({ text }) => {
 
     async function generateContent() {
       if (!text) return;
-      // console.log("GEMINI API STARTED");
       try {
         const response = await ai.models.generateContent({
           model: "gemini-2.5-flash",
@@ -49,9 +48,6 @@ const ChatComponent = ({ text }) => {
         });
 
         setAiResponse(response.text);
-        // console.log("GEMINI API FINISHED");
-
-        // console.log("Gemini API Response:", response.text);
       } catch (error) {
         console.error("Error calling Gemini API:", error);
 

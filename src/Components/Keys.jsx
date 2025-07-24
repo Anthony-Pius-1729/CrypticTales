@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { supabase } from "../supabase-client";
 
 const Keys = ({
   dataSet,
   handleData,
   heading,
   getSeq,
-  getScore,
+  getMark,
   AUTH_STATES,
 }) => {
   const { loggedIn, user } = AUTH_STATES || {};
-
-  console.log("AUTH_STATES in Keys: ", AUTH_STATES);
-  console.log("Is user logged in?: ", loggedIn);
-  console.log("Logged in user:", user?.email);
 
   /// STATES
   const [written, setWritten] = useState("");
@@ -181,7 +178,7 @@ const Keys = ({
     setCurrentLevel(parseInt(e.target.value));
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     setWritten("");
     if (!base) {
       console.warn("dataSet is empty or story_text is missing.");
@@ -189,24 +186,58 @@ const Keys = ({
       return;
     }
 
-    const expectedText = base.slice(0, 36).toLocaleUpperCase();
+    const expectedText = base.toLocaleUpperCase();
     const enteredText = written.toLocaleUpperCase().replaceAll(" ", "");
+    console.log("Expected", expectedText);
+    console.log("entered", enteredText);
 
     if (enteredText === expectedText) {
       setCurrentLevel((prev) => prev + 1);
       setScore((marks) => marks + 100);
-      getScore((marks) => marks + 100);
+      getMark((marks) => marks + 100);
       setCorrect(true);
 
-      console.log("correct");
+      const { error } = await supabase
+        .from("users")
+        .insert([{ email: user, score: score, name: user }]);
+
+      if (error) {
+        console.log("Erros inserting data to DB", error);
+      }
     } else {
-      console.log("incorrect");
+      console.log("added user's score");
     }
   };
 
   const handleClose = () => {
     setCorrect(false);
   };
+
+  const fetchScore = async () => {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("users")
+      .select("score")
+      .eq("email", user)
+      .order("created_at", { ascending: false })
+      .limit(1);
+
+    if (error) {
+      console.log("Error fetching score:", error);
+      return;
+    }
+
+    if (data && data.length > 0) {
+      setScore(data[0].score);
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      fetchScore();
+    }
+  }, [user]);
 
   return (
     <>
@@ -313,7 +344,6 @@ const Keys = ({
           </button>
         </div>
 
-        {/* "Hacker!" / Success Modal */}
         {correct && (
           <div className="bg-[rgba(47,122,115,0.8)] transition-all ease-in-out delay-100 rounded-md border-0 z-50 absolute top-0 left-0 flex flex-col justify-center items-center text-center w-full h-full mx-auto">
             <div className="w-[50%] h-[30%] bg-white flex flex-col justify-center items-center border-[rgba(10,18,33,0.5)] shadow-xl shadow-[rgba(10,18,33,0.5)] border-2 rounded-lg">
