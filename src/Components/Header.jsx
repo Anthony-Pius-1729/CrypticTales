@@ -14,7 +14,12 @@ const Header = ({ header, seq, AUTH_STATE }) => {
     tetrahedral: "Te_n = n * (n + 1) * (n + 2) / 6",
     hexagonal: "H_n = n * (2 * n - 1)",
   };
-  const handleSignUp = () => {
+  const handleSignUp = async () => {
+    AUTH_STATE({ login: false, signup: true });
+    const { data, error } = await supabase.auth.signUp({
+      email: "valid.email@supabase.io",
+      password: "example-password",
+    });
     console.log("Sign up button is clicked");
   };
   const handleLogin = async () => {
