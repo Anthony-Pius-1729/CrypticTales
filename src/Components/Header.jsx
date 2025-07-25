@@ -1,7 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { supabase } from "../supabase-client";
 
-const Header = ({ header, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
+const Header = ({ header, leaderboard, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
+  const [disp, setDisp] = useState(false);
+
+  const handleClick = () => {
+    setDisp(!disp);
+    leaderboard(disp);
+  };
   const sequencePatterns = {
     lucas: "L_n = L_{n-1} + L_{n-2} ",
     primes: "Sieve of Eratosthenes",
@@ -52,7 +58,10 @@ const Header = ({ header, seq, CURR_AUTH_STATES, AUTH_STATE }) => {
           </div>
         </div>
         <div className="h-full">
-          <button className="px-4 py-2 cursor-pointer border-2 hover:border-2 hover:border-purple-50 hover:scale-105 font-semibold h-full w-full bg-amber-900 text-white border-none rounded-lg ">
+          <button
+            onClick={handleClick}
+            className="px-4 py-2 cursor-pointer border-2 hover:border-2 hover:border-purple-50 hover:scale-105 font-semibold h-full w-full bg-amber-900 text-white border-none rounded-lg "
+          >
             LeaderBoard
           </button>
         </div>

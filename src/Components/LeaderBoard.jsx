@@ -21,6 +21,7 @@ const LeaderBoard = ({ data }) => {
         setError("Failed to load leaderboard data");
         return;
       }
+      console.log("user email: ", usersData[0].email);
 
       if (usersData && usersData.length > 0) {
         const processedPlayers = usersData.map((user, index) => ({

@@ -18,12 +18,17 @@ const App = () => {
   const [head, setHead] = useState("");
   const [seq, setSeq] = useState("");
   const [mark, setMark] = useState(0);
+  const [leadDisp, setLeadDisp] = useState(false);
   const [authDisplayState, setAuthDisplayState] = useState({
     login: false,
     signup: false,
     loggedIn: false,
     user: null,
   });
+
+  const handleLeadDisp = (x) => {
+    setLeadDisp(!x);
+  };
 
   const handlePlayerData = (x) => {
     setPlayerData(x);
@@ -60,7 +65,6 @@ const App = () => {
           user: session.user,
         }));
       } else if (event === "INITIAL_SESSION" && !session) {
-        // Handle no initial session
       }
     });
 
@@ -107,6 +111,7 @@ const App = () => {
     <>
       <div className="relative overflow-x-hidden scroll-smooth justify-center font-[raleway] bg-[linear-gradient(135deg,#0f0f23_0%,#1a1a2e_50%,#16213e_100%)] px-4 w-full h-full flex flex-col">
         <Header
+          leaderboard={handleLeadDisp}
           header={head}
           seq={seq}
           CURR_AUTH_STATES={authDisplayState}
@@ -114,9 +119,9 @@ const App = () => {
           currentAuthStatus={authDisplayState.loggedIn}
           userEmail={authDisplayState.user?.email}
         />
-        <Players />
+        {/* <Players /> */}
         {/* LeaderBoard now fetches its own data from Supabase */}
-        <LeaderBoard />
+        {leadDisp && <LeaderBoard />}
         <div className="w-full h-[100vh] px-6 pt-6 gap-x-4 flex justify-center">
           <LSideBar />
           {authDisplayState.login && !authDisplayState.loggedIn ? (
