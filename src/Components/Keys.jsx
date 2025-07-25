@@ -3,12 +3,14 @@ import { supabase } from "../supabase-client";
 
 const Keys = ({
   dataSet,
+  playerData,
   handleData,
   heading,
   getSeq,
   getMark,
   AUTH_STATES,
 }) => {
+  console.log("THIS IS PLAYER DATA KEYS:", playerData);
   const { loggedIn, user } = AUTH_STATES || {};
 
   /// STATES
@@ -20,14 +22,9 @@ const Keys = ({
   const base = dataSet?.[0]?.story_text?.replaceAll(" ", "") || "";
   const textArray = base.split("");
   const len = textArray.length;
-  // This regex string looks like it's meant to define special characters,
-  // but `includes` expects a string. It's likely you want to use a regex object
 
   const specialCharsString = `!@#$%^&*()_+-=[]{};':"\\|,.<>/?`;
 
-  /// STORE ALL SPECIAL CHARACTERS HERE
-  // This logic seems to find special characters in the first 37 characters and store their indices.
-  // Make sure `specialInStory` is used as intended.
   const [specialInStory, setSpecialInStory] = useState(() => {
     return Array.from(
       new Set(
@@ -40,8 +37,6 @@ const Keys = ({
       )
     );
   });
-  // You might want to update specialInStory if base (dataSet) changes,
-  // possibly with a useEffect or by deriving it dynamically if base is static after initial load.
 
   const alphabet = [
     "A",
@@ -72,7 +67,6 @@ const Keys = ({
     "Z",
   ];
 
-  // PRE-COMPUTED SEQUENCES (26 values each for A-Z)
   const sequences = {
     squares: [
       1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289,
@@ -130,7 +124,6 @@ const Keys = ({
     10: "tetrahedral",
   };
 
-  // Get current sequence (cycle through if level > 10)
   const maxLevel = Object.keys(levelSequences).length;
   const sequenceKey = levelSequences[((currentLevel - 1) % maxLevel) + 1];
 
@@ -178,6 +171,59 @@ const Keys = ({
     setCurrentLevel(parseInt(e.target.value));
   };
 
+  // UPDATED fetchScore function
+  const fetchScore = async () => {
+    if (!user) {
+      console.log("No user found, cannot fetch score");
+      return;
+    }
+
+    try {
+      console.log("Fetching score for user:", user);
+
+      const { data: data1, error: error1 } = await supabase
+        .from("users")
+        .select("score, created_at, id, email")
+        .eq("email", user)
+        .order("created_at", { ascending: false });
+
+      console.log("Raw database response:", data1);
+      console.log("Database error:", error1);
+
+      if (error1) {
+        console.error("Error fetching scores:", error1);
+        return;
+      }
+
+      if (data1 && data1.length > 0) {
+        const latestScore = data1[0].score;
+        console.log("Latest score found:", latestScore);
+
+        setScore(latestScore);
+
+        if (playerData) {
+          playerData(latestScore);
+        }
+
+        console.log("ALL SCORES DATA (data1):", data1);
+      } else {
+        console.log("No score data found for user:", user);
+
+        setScore(10);
+        if (playerData) {
+          playerData(10);
+        }
+      }
+    } catch (err) {
+      console.error("Unexpected error fetching scores:", err);
+
+      setScore(10);
+      if (playerData) {
+        playerData(10);
+      }
+    }
+  };
+
   const handleClick = async () => {
     setWritten("");
     if (!base) {
@@ -192,20 +238,36 @@ const Keys = ({
     console.log("entered", enteredText);
 
     if (enteredText === expectedText) {
+      const newScore = score + 100;
+
       setCurrentLevel((prev) => prev + 1);
-      setScore((marks) => marks + 100);
+      setScore(newScore);
       getMark((marks) => marks + 100);
       setCorrect(true);
 
-      const { error } = await supabase
-        .from("users")
-        .insert([{ email: user, score: score, name: user }]);
+      try {
+        const { error } = await supabase.from("users").insert([
+          {
+            email: user,
+            score: newScore,
+            name: user,
+          },
+        ]);
 
-      if (error) {
-        console.log("Erros inserting data to DB", error);
+        if (error) {
+          console.error("Error inserting data to DB:", error);
+        } else {
+          console.log("Successfully added user's score:", newScore);
+
+          if (playerData) {
+            playerData(newScore);
+          }
+        }
+      } catch (err) {
+        console.error("Unexpected error saving score:", err);
       }
     } else {
-      console.log("added user's score");
+      console.log("Incorrect answer");
     }
   };
 
@@ -213,31 +275,18 @@ const Keys = ({
     setCorrect(false);
   };
 
-  const fetchScore = async () => {
-    if (!user) return;
-
-    const { data, error } = await supabase
-      .from("users")
-      .select("score")
-      .eq("email", user)
-      .order("created_at", { ascending: false })
-      .limit(1);
-
-    if (error) {
-      console.log("Error fetching score:", error);
-      return;
-    }
-
-    if (data && data.length > 0) {
-      setScore(data[0].score);
-    }
-  };
-
   useEffect(() => {
-    if (user) {
+    console.log("useEffect triggered. User:", user, "LoggedIn:", loggedIn);
+
+    if (user && loggedIn) {
       fetchScore();
+    } else {
+      setScore(10);
+      if (playerData) {
+        playerData(10);
+      }
     }
-  }, [user]);
+  }, [user, loggedIn]);
 
   return (
     <>
@@ -283,10 +332,7 @@ const Keys = ({
         </div>
 
         <div className="m-6 border-2 rounded-3xl border-[rgba(79,209,199,0.3)] bg-[rgba(10,18,33,0.9)] h-[25rem] overflow-auto custom-scrollbar">
-          {" "}
           <div className="grid grid-cols-7 grid-rows-auto gap-x-0.5 p-8 ">
-            {" "}
-            {/* Changed grid-rows-9 to grid-rows-auto */}
             {textArray?.map((letter, idx) => {
               if (idx < len) {
                 const newChar = letter.toUpperCase();
@@ -310,11 +356,9 @@ const Keys = ({
                     id={`char-${idx}`}
                     style={{
                       backgroundColor: isCorrectChar
-                        ? "#FFD586" // Highlight correct characters
-                        : "rgba(10,18,33,0.9)", // Default background
-                      color: isCorrectChar
-                        ? "#1e293b" // Correct character color
-                        : "#4fd1c7", // Wrong character color
+                        ? "#FFD586"
+                        : "rgba(10,18,33,0.9)",
+                      color: isCorrectChar ? "#1e293b" : "#4fd1c7",
                     }}
                     className="p-2 w-16 text-sm border border-[#39978f] font-semibold rounded-xl m-2"
                   >
@@ -339,7 +383,6 @@ const Keys = ({
             onClick={handleClick}
             className="p-2 transition-transform ease-in-out hover:scale-105 outline-none rounded-lg text-gray-50 border-[rgba(79,209,199,0.3)] font-semibold border-0 w-[30%] bg-[linear-gradient(45deg,#4fd1c7,#7c3aed)]"
           >
-            {/* <img src={decodeImg} className="w-[20%] h-full inline-block items-center mr-3.5" alt="Decode" /> */}
             Decode
           </button>
         </div>
@@ -349,8 +392,7 @@ const Keys = ({
             <div className="w-[50%] h-[30%] bg-white flex flex-col justify-center items-center border-[rgba(10,18,33,0.5)] shadow-xl shadow-[rgba(10,18,33,0.5)] border-2 rounded-lg">
               <h1 className="text-3xl font-semibold my-4 text-gray-900">
                 Hacker!
-              </h1>{" "}
-              {/* Added text-gray-900 for visibility */}
+              </h1>
               <button
                 onClick={() => {
                   handleClose();

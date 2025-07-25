@@ -1,6 +1,7 @@
 import React from "react";
 
-const LeaderBoard = () => {
+const LeaderBoard = ({ data }) => {
+  console.log("Data in Leaderbord", data);
   const players = [
     { id: 1, name: "DragonSlayer_99", score: 245780 },
     { id: 2, name: "ShadowMaster", score: 238540 },
@@ -17,7 +18,7 @@ const LeaderBoard = () => {
   return (
     <div className="w-full mx-auto  p-6 bg-[rgba(47,122,115,0.8)] rounded-lg">
       <h1 className="text-3xl font-bold text-center mb-8 text-[rgb(43,245,211)]">
-        Leaderboard
+        🏆 Leaderboard
       </h1>
 
       <div className="bg-[rgba(10,18,33,0.9)] rounded-lg shadow-md overflow-hidden">
@@ -33,9 +34,9 @@ const LeaderBoard = () => {
           {players.map((player, index) => (
             <div
               key={player.id}
-              className="px-6 py-4 text-[rgb(43,245,211)] hover:bg-gray-800 transition-colors "
+              className="px-6 py-4 cursor-pointer text-[rgb(43,245,211)] hover:bg-gray-800 hover:scale-z-110 transition-colors "
             >
-              <div className="flex justify-between items-center">
+              <div className="flex justify-between items-center ">
                 <div className="flex items-center space-x-3">
                   <span
                     className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${

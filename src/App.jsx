@@ -12,6 +12,7 @@ import LeaderBoard from "./Components/LeaderBoard";
 
 const App = () => {
   const [data, setData] = useState([]);
+  const [playerData, setPlayerData] = useState([]);
   const [displayR, setDisplayR] = useState(false);
   const [seqData, setSeqData] = useState(null);
   const [head, setHead] = useState("");
@@ -24,6 +25,9 @@ const App = () => {
     user: null,
   });
 
+  const handlePlayerData = (x) => {
+    setPlayerData(x);
+  };
   const handleAuthDisplayState = (newState) => {
     setAuthDisplayState((prevState) => ({
       ...prevState,
@@ -108,7 +112,7 @@ const App = () => {
           userEmail={authDisplayState.user?.email}
         />
         <Players />
-        <LeaderBoard />
+        <LeaderBoard data={playerData} />
         <div className="w-full h-[100vh] px-6 pt-6 gap-x-4 flex justify-center">
           <LSideBar />
           {authDisplayState.login && !authDisplayState.loggedIn ? (
@@ -118,6 +122,7 @@ const App = () => {
           ) : (
             <Board
               AUTH_STATES={authDisplayState}
+              playerData={handlePlayerData}
               dataSet={finalData}
               handleData={handleDatas}
               heading={handleHead}

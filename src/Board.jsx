@@ -4,6 +4,7 @@ import GameOver from "./GameOver";
 
 const Board = ({
   dataSet,
+  playerData,
   handleData,
   heading,
   getSeq,
@@ -66,6 +67,7 @@ const Board = ({
         ) : (
           <Keys
             AUTH_STATES={AUTH_STATES}
+            playerData={playerData}
             dataSet={dataSet}
             handleData={handleData}
             heading={heading}
