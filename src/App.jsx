@@ -28,6 +28,7 @@ const App = () => {
   const handlePlayerData = (x) => {
     setPlayerData(x);
   };
+
   const handleAuthDisplayState = (newState) => {
     setAuthDisplayState((prevState) => ({
       ...prevState,
@@ -59,6 +60,7 @@ const App = () => {
           user: session.user,
         }));
       } else if (event === "INITIAL_SESSION" && !session) {
+        // Handle no initial session
       }
     });
 
@@ -80,6 +82,7 @@ const App = () => {
   const handleHead = (x) => {
     setHead(x);
   };
+
   const handleMark = (x) => {
     setMark(x);
   };
@@ -112,7 +115,8 @@ const App = () => {
           userEmail={authDisplayState.user?.email}
         />
         <Players />
-        <LeaderBoard data={playerData} />
+        {/* LeaderBoard now fetches its own data from Supabase */}
+        <LeaderBoard />
         <div className="w-full h-[100vh] px-6 pt-6 gap-x-4 flex justify-center">
           <LSideBar />
           {authDisplayState.login && !authDisplayState.loggedIn ? (

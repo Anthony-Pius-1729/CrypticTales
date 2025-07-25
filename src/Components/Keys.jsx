@@ -196,13 +196,14 @@ const Keys = ({
       }
 
       if (data1 && data1.length > 0) {
-        const latestScore = data1[0].score;
+        const latestScore = data1;
         console.log("Latest score found:", latestScore);
 
         setScore(latestScore);
 
         if (playerData) {
-          playerData(latestScore);
+          console.log("latest score is: ", latestScore);
+          playerData((latestScore) => latestScore);
         }
 
         console.log("ALL SCORES DATA (data1):", data1);
@@ -246,13 +247,20 @@ const Keys = ({
       setCorrect(true);
 
       try {
-        const { error } = await supabase.from("users").insert([
-          {
-            email: user,
-            score: newScore,
-            name: user,
-          },
-        ]);
+        const { error } = await supabase
+          .from("users")
+          .update({ score: newScore })
+          .eq("email", user);
+
+        if (error) {
+          console.error("Error inserting data to DB:", error);
+        } else {
+          console.log("Successfully added user's score:", newScore);
+
+          if (playerData) {
+            playerData(newScore);
+          }
+        }
 
         if (error) {
           console.error("Error inserting data to DB:", error);
